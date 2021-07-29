@@ -17,7 +17,6 @@ class HomeViewModel @Inject constructor(
     private val repository: FirestoreRepositoryImpl
 ): ViewModel() {
 
-    val userList = mutableStateOf(listOf<UserModel>())
 
     fun addUser(user: UserModel){
         viewModelScope.launch {
@@ -25,13 +24,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-//    init {
-//        getAllUsers()
-//    }
 
     @ExperimentalCoroutinesApi
-    fun getAllUsers() : Flow<QuerySnapshot?> {
-       return repository.getAllUsers()
+    fun getAllUsers(userId: String) : Flow<QuerySnapshot?> {
+       return repository.getAllUsers(userId)
 
     }
 

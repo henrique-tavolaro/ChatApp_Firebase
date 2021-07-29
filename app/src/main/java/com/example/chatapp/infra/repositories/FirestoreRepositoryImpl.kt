@@ -1,6 +1,7 @@
 package com.example.chatapp.infra.repositories
 
 import android.util.Log
+import com.example.chatapp.domain.entity.Message
 import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.domain.repositories.FirestoreRepository
 import com.example.chatapp.infra.datasource.FirestoreDatasourceImpl
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val USERS = "Users"
+
 
 @Singleton
 class FirestoreRepositoryImpl @Inject constructor(
@@ -22,13 +23,17 @@ class FirestoreRepositoryImpl @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
-    override fun getAllUsers() : Flow<QuerySnapshot?>
-//    : List<UserModel>
-    {
-//        val result =
-         return firestoreClass.getAllUsers()
-//        Log.d("TAG3", result.toString())
-//        return result
+    override fun getAllUsers(userId: String) : Flow<QuerySnapshot?> {
+         return firestoreClass.getAllUsers(userId)
+    }
+
+    override suspend fun addMessage(message: Message) {
+        firestoreClass.addMessage(message)
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun getAllMessages(user1id: String, user2id: String): Flow<QuerySnapshot?> {
+        return firestoreClass.getAllMessages(user1id, user2id)
     }
 
 

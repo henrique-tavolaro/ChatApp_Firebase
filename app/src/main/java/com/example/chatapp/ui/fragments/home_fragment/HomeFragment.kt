@@ -32,6 +32,7 @@ import com.example.chatapp.ui.composables.UsersListScreen
 import com.example.chatapp.ui.composables.loadImageUri
 import com.example.chatapp.ui.theme.ChatAppTheme
 import com.example.chatapp.ui.theme.Purple200
+import com.example.chatapp.ui.theme.Purple500
 import com.example.chatapp.ui.theme.Purple700
 import com.example.chatapp.utils.DEFAULT_IMAGE
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,9 +66,7 @@ class HomeFragment : Fragment() {
 
 
             setContent {
-                val userList = viewModel.userList.value
 
-                Log.d("TAG", userList.toString())
                 MaterialTheme {
 
                     val state = rememberScaffoldState()
@@ -100,7 +99,7 @@ class HomeFragment : Fragment() {
                                             .background(
                                                 brush = Brush.horizontalGradient(
                                                     colors = listOf(
-                                                        Purple200,
+                                                        Purple500,
                                                         Purple700
                                                     )
                                                 )
@@ -150,7 +149,11 @@ class HomeFragment : Fragment() {
 
                             }
                         ) {
-                            UsersListScreen(viewModel = viewModel, navController = findNavController())
+                            UsersListScreen(
+                                viewModel = viewModel,
+                                navController = findNavController(),
+                                userId = user.id
+                            )
                         }
                     }
 

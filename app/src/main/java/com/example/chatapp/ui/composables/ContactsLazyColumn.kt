@@ -21,14 +21,22 @@ import com.example.chatapp.utils.DEFAULT_IMAGE
 
 @ExperimentalMaterialApi
 @Composable
-fun ContactsLazyColumn(user: UserModel, navController: NavController) {
+fun ContactsLazyColumn(user: UserModel, navController: NavController, userId: String) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth(),
         elevation = 4.dp,
         onClick = {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment(id = user.id, name = user.name, photoUrl = user.photoUrl, email = user.email))
+            navController.navigate(
+                HomeFragmentDirections.actionHomeFragmentToChatFragment(
+                    id = user.id,
+                    name = user.name,
+                    photoUrl = user.photoUrl,
+                    email = user.email,
+                    userId = userId
+                )
+            )
         }
 
     ) {

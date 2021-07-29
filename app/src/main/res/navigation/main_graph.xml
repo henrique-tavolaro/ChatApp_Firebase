@@ -56,5 +56,8 @@
             android:id="@+id/action_chatFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
     </fragment>
 </navigation>

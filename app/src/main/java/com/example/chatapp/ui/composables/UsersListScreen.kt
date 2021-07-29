@@ -11,8 +11,8 @@ import com.example.chatapp.ui.fragments.home_fragment.HomeViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun UsersListScreen(viewModel: HomeViewModel, navController: NavController) {
-    val getAllUsers = viewModel.getAllUsers().collectAsState(initial = null).value
+fun UsersListScreen(viewModel: HomeViewModel, navController: NavController, userId: String) {
+    val getAllUsers = viewModel.getAllUsers(userId).collectAsState(initial = null).value
 
 
     val list = getAllUsers?.map {
@@ -23,7 +23,7 @@ fun UsersListScreen(viewModel: HomeViewModel, navController: NavController) {
 
         if (list != null && list.isNotEmpty())
             items(list) { user ->
-                ContactsLazyColumn(user = user, navController = navController)
+                ContactsLazyColumn(user = user, navController = navController, userId = userId)
             }
     }
 }
