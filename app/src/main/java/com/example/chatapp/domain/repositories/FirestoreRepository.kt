@@ -9,10 +9,11 @@ interface FirestoreRepository {
 
     suspend fun addUser(user: UserModel)
 
-    fun getAllUsers(userId: String): Flow<QuerySnapshot?>
+    fun getUserList(userId: String): Flow<MutableList<UserModel>?>
 
     suspend fun addMessage(message: Message)
 
     fun getAllMessages(user1id: String, user2id: String): Flow<QuerySnapshot?>
 
+    suspend fun getAllUsers() : MutableList<UserModel>
 }

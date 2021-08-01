@@ -4,14 +4,19 @@ import com.example.chatapp.domain.entity.Message
 import com.example.chatapp.domain.entity.UserModel
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Singleton
 
+@Singleton
 interface FirestoreDatasource {
 
     suspend fun addUser(user: UserModel)
 
-    fun getAllUsers(userId: String) : Flow<QuerySnapshot?>
+    fun getUsersList(userId: String) : Flow<MutableList<UserModel>?>
 
     suspend fun addMessage(message: Message)
 
     fun getAllMessages(user1id: String, user2id: String) : Flow<QuerySnapshot?>
+
+    // for testing
+    suspend fun getAllUsers() : MutableList<UserModel>
 }

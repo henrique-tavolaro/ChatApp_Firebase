@@ -1,13 +1,12 @@
 package com.example.chatapp.ui.fragments.home_fragment
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.infra.repositories.FirestoreRepositoryImpl
-import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,12 +23,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
-    fun getAllUsers(userId: String) : Flow<QuerySnapshot?> {
-       return repository.getAllUsers(userId)
+    fun getAllUsers(userId: String) : Flow<MutableList<UserModel>?> {
 
+       return repository.getUserList(userId)
     }
-
 
 }

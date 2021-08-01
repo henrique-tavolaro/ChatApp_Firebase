@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.chatapp.domain.entity.UserModel
@@ -37,6 +39,7 @@ import com.example.chatapp.ui.theme.Purple700
 import com.example.chatapp.utils.DEFAULT_IMAGE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -46,6 +49,7 @@ class HomeFragment : Fragment() {
 
     val args: HomeFragmentArgs by navArgs()
 
+    @InternalCoroutinesApi
     @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     override fun onCreateView(
@@ -59,8 +63,6 @@ class HomeFragment : Fragment() {
             photoUrl = args.photoUrl,
             email = args.email
         )
-
-
 
         return ComposeView(requireContext()).apply {
 

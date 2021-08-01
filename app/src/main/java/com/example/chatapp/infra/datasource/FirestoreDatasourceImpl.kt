@@ -1,6 +1,7 @@
 package com.example.chatapp.infra.datasource
 
 import android.util.Log
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.Transformations.map
 import com.example.chatapp.domain.entity.Message
 import com.example.chatapp.domain.entity.UserModel
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -30,15 +32,15 @@ class FirestoreDatasourceImpl @Inject constructor(
             .addOnSuccessListener {
                 Log.d("TAG", "success")
             }
-
     }
 
     @ExperimentalCoroutinesApi
-    override fun getAllUsers(userId: String) = callbackFlow {
+    override fun getUsersList(userId: String): Flow<MutableList<UserModel>> = callbackFlow {
         val collection = firestore.collection(USERS).whereNotEqualTo("id", userId)
 
         val snapshotListener = collection.addSnapshotListener() { snapshot, e ->
-            this.trySend(snapshot).isSuccess
+            this.trySend(snapshot!!.toObjects(UserModel::class.java)).isSuccess
+
         }
 
         awaitClose {
@@ -65,5 +67,12 @@ class FirestoreDatasourceImpl @Inject constructor(
         }
     }
 
-
+    override suspend fun getAllUsers(): MutableList<UserModel> {
+        return firestore
+            .collection(USERS)
+            .get()
+            .await()
+            .toObjects(UserModel::class.java)
+    }
 }
+
