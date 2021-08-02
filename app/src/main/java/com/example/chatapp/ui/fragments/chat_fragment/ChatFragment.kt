@@ -187,14 +187,12 @@ class ChatFragment : Fragment() {
                     ) {
 
 
-                        val getAllMessages = viewModel.getAllMessages(user.id, args.userId)
+                        val list = viewModel.getAllMessages(user.id, args.userId)
                             .collectAsState(initial = null).value
 
                         val state = rememberLazyListState()
                         val coroutineScope = rememberCoroutineScope()
-                        val list = getAllMessages?.map {
-                            it.toObject(Message::class.java)
-                        }
+
                         coroutineScope.launch {
                             if (list != null && list.isNotEmpty()) {
                                 state.scrollToItem(list.size - 1)

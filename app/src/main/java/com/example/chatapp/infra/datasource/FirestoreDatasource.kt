@@ -15,8 +15,10 @@ interface FirestoreDatasource {
 
     suspend fun addMessage(message: Message)
 
-    fun getAllMessages(user1id: String, user2id: String) : Flow<QuerySnapshot?>
+    fun getAllMessages(user1id: String, user2id: String) : Flow<MutableList<Message>?>
 
     // for testing
     suspend fun getAllUsers() : MutableList<UserModel>
+
+    suspend fun getMessages(user1id: String, user2id: String) : MutableList<Message>
 }

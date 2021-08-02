@@ -59,7 +59,7 @@ class FirestoreDatasourceImpl @Inject constructor(
         val collection = firestore.collection(MESSAGES).whereIn("conversation", listOf(user1id + user2id, user2id + user1id))
 
         val snapshotListener = collection.addSnapshotListener() { snapshot, e ->
-            this.trySend(snapshot).isSuccess
+            this.trySend(snapshot!!.toObjects(Message::class.java)).isSuccess
         }
 
         awaitClose {
@@ -67,12 +67,23 @@ class FirestoreDatasourceImpl @Inject constructor(
         }
     }
 
+
+    // functions for testing
     override suspend fun getAllUsers(): MutableList<UserModel> {
         return firestore
             .collection(USERS)
             .get()
             .await()
             .toObjects(UserModel::class.java)
+    }
+
+    override suspend fun getMessages(user1id: String, user2id: String): MutableList<Message> {
+        return firestore
+            .collection(MESSAGES)
+            .whereIn("conversation", listOf(user1id + user2id, user2id + user1id))
+            .get()
+            .await()
+            .toObjects(Message::class.java)
     }
 }
 

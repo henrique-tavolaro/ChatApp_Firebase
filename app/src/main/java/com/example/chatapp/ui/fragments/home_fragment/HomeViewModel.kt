@@ -3,7 +3,8 @@ package com.example.chatapp.ui.fragments.home_fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.domain.entity.UserModel
-import com.example.chatapp.infra.repositories.FirestoreRepositoryImpl
+import com.example.chatapp.infra.usecases_repositories.AddUserUseCase
+import com.example.chatapp.infra.usecases_repositories.GetUserListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -13,13 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: FirestoreRepositoryImpl
+    private val addUserUseCase: AddUserUseCase,
+    private val getUserListUseCase: GetUserListUseCase
 ): ViewModel() {
 
 
     fun addUser(user: UserModel){
         viewModelScope.launch {
-            repository.addUser(user)
+            addUserUseCase.addUser(user)
         }
     }
 
@@ -27,7 +29,7 @@ class HomeViewModel @Inject constructor(
     @ExperimentalCoroutinesApi
     fun getAllUsers(userId: String) : Flow<MutableList<UserModel>?> {
 
-       return repository.getUserList(userId)
+       return getUserListUseCase.getUserList(userId)
     }
 
 }

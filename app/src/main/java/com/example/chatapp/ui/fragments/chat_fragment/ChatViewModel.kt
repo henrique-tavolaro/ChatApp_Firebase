@@ -4,7 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.domain.entity.Message
-import com.example.chatapp.infra.repositories.FirestoreRepositoryImpl
+import com.example.chatapp.infra.usecases_repositories.AddMessageUseCase
+import com.example.chatapp.infra.usecases_repositories.GetMessagesUseCase
 import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val repository: FirestoreRepositoryImpl
+    private val addMessageUseCase: AddMessageUseCase,
+    private val getMessagesUseCase: GetMessagesUseCase
 ): ViewModel(){
 
     val message = mutableStateOf("")
@@ -25,13 +27,13 @@ class ChatViewModel @Inject constructor(
 
     fun addMessage(message: Message){
         viewModelScope.launch {
-            repository.addMessage(message)
+            addMessageUseCase.addMessage(message)
         }
     }
 
     @ExperimentalCoroutinesApi
-    fun getAllMessages(user1id: String, user2id: String) : Flow<QuerySnapshot?> {
-        return repository.getAllMessages(user1id, user2id)
+    fun getAllMessages(user1id: String, user2id: String) : Flow<MutableList<Message>?> {
+        return getMessagesUseCase.getAllMessages(user1id, user2id)
 
     }
 }

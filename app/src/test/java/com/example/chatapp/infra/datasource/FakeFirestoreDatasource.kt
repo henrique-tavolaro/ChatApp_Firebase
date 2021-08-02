@@ -29,12 +29,28 @@ class FakeFirestoreDatasource(
         messageList?.add(message)
     }
 
-    override fun getAllMessages(user1id: String, user2id: String): Flow<QuerySnapshot?> {
-        TODO("Not yet implemented")
+    override fun getAllMessages(user1id: String, user2id: String): Flow<MutableList<Message>?> = flow  {
+        val list = mutableListOf<Message>()
+        messageList!!.map{
+            if(it.conversation == user1id + user2id || it.conversation == user2id + user1id){
+                list.add(it)
+            }
+        }
+        emit(list)
     }
 
     override suspend fun getAllUsers(): MutableList<UserModel> {
         return userList!!
+    }
+
+    override suspend fun getMessages(user1id: String, user2id: String): MutableList<Message> {
+        val list = mutableListOf<Message>()
+        messageList!!.map{
+            if(it.conversation == user1id + user2id || it.conversation == user2id + user1id){
+                list.add(it)
+            }
+        }
+        return list
     }
 
 

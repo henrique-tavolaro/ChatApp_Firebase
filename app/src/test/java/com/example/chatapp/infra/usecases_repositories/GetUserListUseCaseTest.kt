@@ -1,16 +1,16 @@
-package com.example.chatapp.infra.repositories
+package com.example.chatapp.infra.usecases_repositories
 
 import com.example.chatapp.domain.entity.UserModel
-import com.example.chatapp.domain.repositories.FirestoreRepository
+import com.example.chatapp.domain.repositories.GetUserList
 import com.example.chatapp.infra.datasource.FakeFirestoreDatasource
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class FirestoreRepositoryImplTest {
+class GetUserListUseCaseTest {
 
     private val user1 = UserModel(
         id = "id1",
@@ -24,42 +24,34 @@ class FirestoreRepositoryImplTest {
         email = "email2",
         photoUrl = "photoUrl2"
     )
-    private val allUsersList = listOf(user1, user2)
-    private val userListWithoutUser = listOf(user2)
+
+    private val userList = listOf(user2)
+
     private lateinit var datasource: FakeFirestoreDatasource
-    private lateinit var repository: FirestoreRepository
+    private lateinit var usecase: GetUserList
 
     @Before
     fun setup(){
         datasource = FakeFirestoreDatasource()
-        repository = FirestoreRepositoryImpl(datasource)
-    }
-
-    @Test
-    fun addUser() = runBlocking {
-        repository.addUser(user1)
-        repository.addUser(user2)
-
-        val users = repository.getAllUsers()
-        assertEquals(users, allUsersList)
+        usecase = GetUserListUseCase(datasource)
     }
 
     @InternalCoroutinesApi
     @Test
-    fun addUserToFirebase() = runBlocking {
-        repository.addUser(user2)
-        repository.addUser(user1)
+    fun shouldReturnFlowOfUsersWithoutCurrentUser() = runBlocking {
+        usecase.addUser(user2)
+        usecase.addUser(user1)
 
         val users = mutableListOf<UserModel>()
 
-        repository.getUserList(user1.id).collect {
+        usecase.getUserList(user1.id).collect {
             if (it != null) {
                 for(i in it){
                     users.add(i)
                 }
             }
         }
-        assertEquals(users, userListWithoutUser )
+        Assert.assertEquals(users, userList )
     }
 
 }
