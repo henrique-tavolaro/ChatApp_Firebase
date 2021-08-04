@@ -20,5 +20,5 @@ interface FirestoreDatasource {
     // for testing
     suspend fun getAllUsers() : MutableList<UserModel>
 
-    suspend fun getMessages(user1id: String, user2id: String) : MutableList<Message>
+    suspend fun getMessages() : MutableList<Message>
 }

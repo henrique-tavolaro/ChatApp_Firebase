@@ -21,8 +21,8 @@ class AddMessageUseCase @Inject constructor(
 
     // function for testing
     @ExperimentalCoroutinesApi
-    override suspend fun getMessages(user1id: String, user2id: String): MutableList<Message> {
-       return firestore.getMessages(user1id, user2id)
+    override suspend fun getMessages(): MutableList<Message> {
+       return firestore.getMessages()
     }
 
 }

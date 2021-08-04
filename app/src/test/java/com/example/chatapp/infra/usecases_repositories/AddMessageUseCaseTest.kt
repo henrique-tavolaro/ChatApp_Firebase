@@ -5,7 +5,9 @@ import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.domain.repositories.AddMessage
 import com.example.chatapp.domain.repositories.AddUser
 import com.example.chatapp.infra.datasource.FakeFirestoreDatasource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -54,17 +56,18 @@ class AddMessageUseCaseTest {
         usecase = AddMessageUseCase(datasource)
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun shouldReturnMessagesOfUser1User2() = runBlocking {
+    fun shouldReturnAllMessages() = runBlockingTest {
         usecase.addMessage(message1)
         usecase.addMessage(message2)
         usecase.addMessage(message3)
         usecase.addMessage(message4)
         usecase.addMessage(message5)
 
-        val messageList = usecase.getMessages(user1.id, user2.id)
-        Assert.assertEquals(messageList, messagesUser1User2)
-        Assert.assertNotEquals(messageList, allMessages)
+        val messageList = usecase.getMessages()
+        Assert.assertNotEquals(messageList, messagesUser1User2)
+        Assert.assertEquals(messageList, allMessages)
     }
 
 }

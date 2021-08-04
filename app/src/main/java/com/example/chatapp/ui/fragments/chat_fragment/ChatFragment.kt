@@ -41,11 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.chatapp.R
 import com.example.chatapp.domain.entity.Message
 import com.example.chatapp.domain.entity.UserModel
+import com.example.chatapp.domain.repositories.AddMessage
+import com.example.chatapp.infra.usecases_repositories.AddMessageUseCase
+import com.example.chatapp.infra.usecases_repositories.GetMessagesUseCase
 import com.example.chatapp.ui.composables.ChatCard
 import com.example.chatapp.ui.composables.loadImageUri
 import com.example.chatapp.ui.theme.ChatAppTheme
@@ -59,7 +63,9 @@ import java.util.*
 @AndroidEntryPoint
 class ChatFragment : Fragment() {
 
-    val viewModel: ChatViewModel by viewModels()
+//    val viewModel: ChatViewModel by viewModels()
+
+    private lateinit var viewModel: ChatViewModel
 
     val args: ChatFragmentArgs by navArgs()
 
@@ -72,7 +78,7 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewModel = ViewModelProvider(requireActivity()).get(ChatViewModel::class.java)
 
         val user: UserModel = UserModel(
             id = args.id,

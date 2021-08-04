@@ -9,5 +9,5 @@ interface AddMessage {
     suspend fun addMessage(message: Message)
 
     // function for testing
-    suspend fun getMessages(user1id: String, user2id: String): MutableList<Message>
+    suspend fun getMessages(): MutableList<Message>
 }

@@ -16,41 +16,36 @@ class FakeFirestoreDatasource(
     }
 
     override fun getUsersList(userId: String): Flow<MutableList<UserModel>?> = flow {
-        val users = mutableListOf<UserModel>()
-            userList!!.map {
-            if(it.id != userId){
-                users.add(it)
-            }
-        }
-        emit(users)
-    }
-
-    override suspend fun addMessage(message: Message) {
-        messageList?.add(message)
-    }
-
-    override fun getAllMessages(user1id: String, user2id: String): Flow<MutableList<Message>?> = flow  {
-        val list = mutableListOf<Message>()
-        messageList!!.map{
-            if(it.conversation == user1id + user2id || it.conversation == user2id + user1id){
+        val list = mutableListOf<UserModel>()
+        userList!!.map {
+            if (it.id != userId) {
                 list.add(it)
             }
         }
         emit(list)
     }
 
+    override suspend fun addMessage(message: Message) {
+        messageList?.add(message)
+    }
+
+    override fun getAllMessages(user1id: String, user2id: String): Flow<MutableList<Message>?> =
+        flow {
+            val list = mutableListOf<Message>()
+            messageList!!.map {
+                if (it.conversation == user1id + user2id || it.conversation == user2id + user1id) {
+                    list.add(it)
+                }
+            }
+            emit(list)
+        }
+
     override suspend fun getAllUsers(): MutableList<UserModel> {
         return userList!!
     }
 
-    override suspend fun getMessages(user1id: String, user2id: String): MutableList<Message> {
-        val list = mutableListOf<Message>()
-        messageList!!.map{
-            if(it.conversation == user1id + user2id || it.conversation == user2id + user1id){
-                list.add(it)
-            }
-        }
-        return list
+    override suspend fun getMessages(): MutableList<Message> {
+        return messageList!!
     }
 
 

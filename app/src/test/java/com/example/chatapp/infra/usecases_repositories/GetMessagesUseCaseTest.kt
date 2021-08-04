@@ -5,8 +5,10 @@ import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.domain.repositories.AddMessage
 import com.example.chatapp.domain.repositories.GetMessages
 import com.example.chatapp.infra.datasource.FakeFirestoreDatasource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -58,8 +60,9 @@ class GetMessagesUseCaseTest {
         usecase = GetMessagesUseCase(datasource)
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun shouldReturnFlowOfMessagesUser1User2() = runBlocking {
+    fun shouldReturnFlowOfMessagesUser1User2() = runBlockingTest {
         usecase.addMessage(message1)
         usecase.addMessage(message2)
         usecase.addMessage(message3)

@@ -15,7 +15,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @ExperimentalMaterialApi
 @Composable
 fun UsersListScreen(viewModel: HomeViewModel, navController: NavController, userId: String) {
-    val getAllUsers = viewModel.getAllUsers(userId).collectAsState(initial = null).value
+    val getAllUsers = viewModel.getUserList(userId).collectAsState(initial = null).value
 
 
     LazyColumn() {

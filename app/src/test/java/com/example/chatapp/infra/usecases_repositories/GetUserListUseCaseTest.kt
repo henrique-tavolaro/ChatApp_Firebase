@@ -3,9 +3,11 @@ package com.example.chatapp.infra.usecases_repositories
 import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.domain.repositories.GetUserList
 import com.example.chatapp.infra.datasource.FakeFirestoreDatasource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -36,9 +38,10 @@ class GetUserListUseCaseTest {
         usecase = GetUserListUseCase(datasource)
     }
 
+    @ExperimentalCoroutinesApi
     @InternalCoroutinesApi
     @Test
-    fun shouldReturnFlowOfUsersWithoutCurrentUser() = runBlocking {
+    fun shouldReturnFlowOfUsersWithoutCurrentUser() = runBlockingTest {
         usecase.addUser(user2)
         usecase.addUser(user1)
 

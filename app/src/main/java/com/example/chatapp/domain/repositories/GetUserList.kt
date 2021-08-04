@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetUserList {
 
-    suspend fun addUser(user: UserModel)
-
     fun getUserList(userId: String) : Flow<MutableList<UserModel>?>
+
+    //function for testing
+    suspend fun addUser(user: UserModel)
 }

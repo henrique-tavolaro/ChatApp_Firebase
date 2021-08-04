@@ -77,10 +77,9 @@ class FirestoreDatasourceImpl @Inject constructor(
             .toObjects(UserModel::class.java)
     }
 
-    override suspend fun getMessages(user1id: String, user2id: String): MutableList<Message> {
+    override suspend fun getMessages(): MutableList<Message> {
         return firestore
             .collection(MESSAGES)
-            .whereIn("conversation", listOf(user1id + user2id, user2id + user1id))
             .get()
             .await()
             .toObjects(Message::class.java)

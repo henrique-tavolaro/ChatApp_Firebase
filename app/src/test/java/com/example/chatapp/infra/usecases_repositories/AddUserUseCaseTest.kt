@@ -3,7 +3,9 @@ package com.example.chatapp.infra.usecases_repositories
 import com.example.chatapp.domain.entity.UserModel
 import com.example.chatapp.domain.repositories.AddUser
 import com.example.chatapp.infra.datasource.FakeFirestoreDatasource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -33,8 +35,9 @@ class AddUserUseCaseTest {
         usecase = AddUserUseCase(datasource)
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun addUser() = runBlocking {
+    fun addUser() = runBlockingTest {
         usecase.addUser(user1)
         usecase.addUser(user2)
 
